@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/assets/images", express.static("./public/images"));
+app.use(express.static("public"));
 
 app.use((request, response, next) => {
   response.header("Access-Control-Allow-Origin", "*");
@@ -36,6 +37,9 @@ app.get("*", (request, response) => {
   response.status(404).send("Path Not Found !");
 });
 
+app.get("/", (req, res) => {
+  res.sendFile("index.html", { root: path.join(__dirname, "public") });
+});
 // // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
